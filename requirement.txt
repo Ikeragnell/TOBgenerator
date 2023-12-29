@@ -1,0 +1,5 @@
+PyPDF2
+reportlab
+Pillow
+ipywidgets
+py-epc-qr
