@@ -5,5 +5,6 @@ ADDRESS = "Rue Brederode 16, 1000 Bruxelles"
 SIGN_ADDRESS = "Bruxelles"
 
 TOB_FILEPATH = "TD-OB1-FR.pdf"
+SIGNATURE_FILEPATH = "signature.png"
 BENEFICIARY = "Centre de perception section taxes diverses"
 IBAN = "BE39679200229319"
