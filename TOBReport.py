@@ -170,7 +170,7 @@ class TOBReport:
                     canvas.drawString(nameX, nameY, self.lastName + " " + self.firstName)
                     canvas.drawString(sigTextX, sigTextY, signature)
 
-                    sigImg = Image.open("signature.png")
+                    sigImg = Image.open(SIGNATURE_FILEPATH)
                     sigBuffer = BytesIO()
                     sigImg.save(sigBuffer, format='PNG')
 

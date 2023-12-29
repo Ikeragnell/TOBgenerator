@@ -12,7 +12,7 @@ To run this Jupyter Notebook, ensure that you have the required dependencies ins
 pip install -r requirements.txt
 ```
 
-Fill in the config.py file and insert a signature.png file.
+Fill in the config.py file with your personal information.
 
 
 ## Usage
