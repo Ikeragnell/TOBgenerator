@@ -38,7 +38,7 @@ class TradeRepublicTaxReport:
         monthYearPattern = r'(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER) (\d{4})'
         monthYear = re.search(monthYearPattern, pageStr).group(0).split(" ")
         self.month = datetime.datetime.strptime(monthYear[0], '%B').month
-        self.year = monthYear[1]
+        self.year = int(monthYear[1])
     
     def _extractBaseTax(self, reader):
         self.taxType2BaseTax = {TaxType.LOW : [0.0, 0.0], TaxType.MID : [0.0, 0.0], TaxType.HIGH: [0.0, 0.0]}
@@ -97,10 +97,14 @@ class TOBReport:
             if not isinstance(rep, TradeRepublicTaxReport):
                 raise TypeError("All elements in traRepTaxReps must be instances of TradeRepublicTaxReport")
             
-        if len(traRepTaxReps) > 2:
+        if len(traRepTaxReps) == 2:
+            if traRepTaxReps[0].year * 10 + traRepTaxReps[0].month > traRepTaxReps[1].year * 10 + traRepTaxReps[1].month:
+                tmp = traRepTaxReps[0]
+                traRepTaxReps[0] = traRepTaxReps[1]
+                traRepTaxReps[1] = tmp 
             firstRep = traRepTaxReps[0]
             secRep = traRepTaxReps[1]
-            if (firstRep.year, firstRep.month) != (secRep.year, secRep.month + 1) and (firstRep.year, firstRep.month) != (secRep.year + 1, 1):
+            if (firstRep.year, firstRep.month + 1) != (secRep.year, secRep.month) and (firstRep.year + 1, 1) != (secRep.year, secRep.month):
                 raise TypeError("traRepTaxReps must be a list of 2 consecutive TradeRepublicTaxReport instances")
             
     def generateTOBReportPDF(self):
@@ -126,9 +130,9 @@ class TOBReport:
                     secRep = self.traRepTaxReps[1] if len(self.traRepTaxReps) == 2 else None
                     firstRepMonthX, firstRepMonthY = 278, 690
                     secRepMonthX, secRepMonthY = 380, 690
-                    canvas.drawString(firstRepMonthX, firstRepMonthY, str(firstRep.month) + " " + str(firstRep.year[2:]))
+                    canvas.drawString(firstRepMonthX, firstRepMonthY, str(firstRep.month) + " " + str(firstRep.year)[2:])
                     if secRep:
-                        canvas.drawString(secRepMonthX, secRepMonthY, str(secRep.month) + " " + str(secRep.year[2:]))
+                        canvas.drawString(secRepMonthX, secRepMonthY, str(secRep.month) + " " + str(secRep.year)[2:])
 
                 def writeId():
                     nnX, nnY = 300, 585
@@ -166,7 +170,7 @@ class TOBReport:
                     sigTextX, sigTextY = 90, 310
                     nameX, nameY = 230, 260
                     sigX, sigY = 90, 265
-                    signature = SIGN_ADDRESS + ", le" + datetime.datetime.today().strftime('%d/%m/%Y')
+                    signature = SIGN_ADDRESS + ", le " + datetime.datetime.today().strftime('%d/%m/%Y')
                     canvas.drawString(nameX, nameY, self.lastName + " " + self.firstName)
                     canvas.drawString(sigTextX, sigTextY, signature)
 
