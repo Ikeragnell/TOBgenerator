@@ -56,7 +56,7 @@ class TradeRepublicTaxReport:
                 totalBaseMatch = re.search('TOTAL TAX BASIS IN EUR: (\d*\.\d*)', pageStr)
                 totalTaxMatch = re.search('TOTAL TAX AMOUNT IN EUR: (\d*\.\d*)', pageStr)
                 while not totalBaseMatch and not totalTaxMatch:
-                    if pageIdx >= len(reader.pages) or not totalBaseMatch or not totalTaxMatch:
+                    if pageIdx >= len(reader.pages):
                         raise Exception("No total found")
                     pageIdx += 1
                     pageStr = reader.pages[pageIdx].extract_text()
@@ -98,7 +98,7 @@ class TOBReport:
                 raise TypeError("All elements in traRepTaxReps must be instances of TradeRepublicTaxReport")
             
         if len(traRepTaxReps) == 2:
-            if traRepTaxReps[0].year * 10 + traRepTaxReps[0].month > traRepTaxReps[1].year * 10 + traRepTaxReps[1].month:
+            if traRepTaxReps[0].year * 100 + traRepTaxReps[0].month > traRepTaxReps[1].year * 100 + traRepTaxReps[1].month:
                 tmp = traRepTaxReps[0]
                 traRepTaxReps[0] = traRepTaxReps[1]
                 traRepTaxReps[1] = tmp 
