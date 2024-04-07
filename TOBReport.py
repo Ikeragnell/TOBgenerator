@@ -128,8 +128,8 @@ class TOBReport:
                 def writePeriod():
                     firstRep = self.traRepTaxReps[0]
                     secRep = self.traRepTaxReps[1] if len(self.traRepTaxReps) == 2 else None
-                    firstRepMonthX, firstRepMonthY = 278, 690
-                    secRepMonthX, secRepMonthY = 380, 690
+                    firstRepMonthX, firstRepMonthY = 286, 690
+                    secRepMonthX, secRepMonthY = 388, 690
                     canvas.drawString(firstRepMonthX, firstRepMonthY, str(firstRep.month) + " " + str(firstRep.year)[2:])
                     if secRep:
                         canvas.drawString(secRepMonthX, secRepMonthY, str(secRep.month) + " " + str(secRep.year)[2:])
